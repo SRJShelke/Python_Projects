@@ -1,0 +1,17 @@
+﻿IPL HRIS Field Description,IPL HRIS Field ID,IPL HRIS Field Type,Mandatory,Mapping,New/Existing,SFEC Description,SFEC Field ID,SFEC Data Category
+Employee Number,p_empid,Number(9),Yes,Yes,Existing,Employee ID,personIdExternal,Biographical Information 
+Reason Effective Date(DD/MM/YY),p_perfdate,Date(DD/MM/YY),Yes,No,Existing,Start Date,startDate,Job Information
+Reason for Change,p_reason,Text(8),Yes,Yes,Existing,Event,event,Job Information
+Company,p_comp,Text(10),Yes,Yes,Existing,Company,company,Job Information
+Division,p_div,Text(10),Yes,Yes,Existing,Division,division,Job Information
+Section,p_section,Text(10),Yes, No, NA, NA, NA, NA
+Location,p_location,Text(10),Yes,Yes,Existing,Location,location,Job Information
+Department ,p_dept,Text(10),Yes,Yes,Existing,Department,department,Job Information
+Staff Grade,p_stagrade,Text(4),Yes,Yes,Existing,Contract Type,employeeTypeNav,Job Information
+Job Code,p_jobcode,Text(8),Yes,Yes,Existing,Job Classification,jobCode,Job Information
+Base Currency1,p_basecur1,Text(3),Yes,No,Existing,Currency,currency,Bank Info
+Basic Salary,p_salary,Number,Yes,No,Existing,Amount,paycompvalue,Comp Info
+Contract Monthly Hour,p_averhrs,Number,Yes, No,New,PerGlobalHKG,customString2,Personal Global Info
+Hourly Rate,p_hrrate,Number,Yes, No,New,PerGlobalHKG,customString3,Personal Global Info
+Cost Centre Percentage,p_costp, Number,Yes,No ,NA,NA,NA,NA
+Cost Centre,p_costcen,Number(10),Yes,No,Existing,Cost Center,costCenter,Job Information

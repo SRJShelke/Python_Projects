@@ -1,0 +1,936 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"xs",
+				"xslt_file"
+			],
+			[
+				"tag",
+				"tags"
+			],
+			[
+				"ta",
+				"tagList"
+			],
+			[
+				"xml",
+				"xmlTagNames"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/samples/groovyLog.groovy",
+			"settings":
+			{
+				"buffer_size": 557,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/samples/DateFormat.groovy",
+			"settings":
+			{
+				"buffer_size": 713,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "import com.sap.it.api.mapping.*;\nimport java.text.DateFormat;\nimport java.text.SimpleDateFormat;\nimport java.util.Date;\n\n//Add MappingContext as an additional argument to read or set Headers and properties.\n\ndef String filterDate(String arg1, MappingContext context)\n{\n    String arg2 = context.getProperty(\"IN_DATE\");\n    \n    if(arg2 != null && !arg2.equals(\"\"))\n    {\n        arg2 = arg2 + \"+04:00\";        \n        def now = Date.parse(\"yyyy-MM-dd'T'HH:mm:ssXXX\",arg2);\n        arg2 = now.format(\"yyyy-MM-dd'T'HH:mm:ssXXX\", TimeZone.getTimeZone('UTC'));\n    }\n// If Incoming Date is empty then passing Empty Date Value\nif(arg1 == '')    \n{\narg1 = '';\nreturn arg1;\n}\nelse\n{\n// If Imcoming Date is not empty then change it as 'dd/MM/yyyy' format   \n    //String arg2 = '2018-02-01T00:00:00.000';\n    \n    Date LastModifiedDate=new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS\").parse(arg1); \n    if(arg2 != null && !arg2.equals(\"\"))\n    {\n    Date inputDate=new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ssXXX\").parse(arg2);\n    if (LastModifiedDate >= inputDate)\n    return LastModifiedDate.format(\"yyyy-MM-dd'T'HH:mm:ss.SSS\");    \n    else    \n    return '';\n    }\n    else\n    {\n        return arg1;\n    }\n    \n    \n  \n}\n}",
+			"file": "/C/Users/Sangram Salunkhe/Downloads/filter_records_date.groovy",
+			"file_size": 1266,
+			"file_write_time": 132124021706592646,
+			"settings":
+			{
+				"buffer_size": 1221,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "/*\n The integration developer needs to create the method processData \n This method takes Message object of package com.sap.gateway.ip.core.customdev.util \nwhich includes helper methods useful for the content developer:\nThe methods available are:\n    public java.lang.Object getBody()\n\tpublic void setBody(java.lang.Object exchangeBody)\n    public java.util.Map<java.lang.String,java.lang.Object> getHeaders()\n    public void setHeaders(java.util.Map<java.lang.String,java.lang.Object> exchangeHeaders)\n    public void setHeader(java.lang.String name, java.lang.Object value)\n    public java.util.Map<java.lang.String,java.lang.Object> getProperties()\n    public void setProperties(java.util.Map<java.lang.String,java.lang.Object> exchangeProperties) \n    public void setProperty(java.lang.String name, java.lang.Object value)\n    public java.util.List<com.sap.gateway.ip.core.customdev.util.SoapHeader> getSoapHeaders()\n    public void setSoapHeaders(java.util.List<com.sap.gateway.ip.core.customdev.util.SoapHeader> soapHeaders) \n       public void clearSoapHeaders()\n */\nimport com.sap.gateway.ip.core.customdev.util.Message;\nimport java.util.HashMap;\ndef Message processData(Message message) {\n    //Body \n       def body = message.getBody();\n       message.setBody(body + \"Body is modified\");\n       //Headers \n       def map = message.getHeaders();\n       def value = map.get(\"oldHeader\");\n       message.setHeader(\"oldHeader\", value + \"modified\");\n       message.setHeader(\"newHeader\", \"newHeader\");\n       //Properties \n       map = message.getProperties();\n       value = map.get(\"oldProperty\");\n       message.setProperty(\"oldProperty\", value + \"modified\");\n       message.setProperty(\"newProperty\", \"newProperty\");\n       return message;\n}",
+			"settings":
+			{
+				"buffer_size": 1749,
+				"line_ending": "Windows",
+				"name": "/*"
+			}
+		},
+		{
+			"contents": "from lxml import etree, objectify\nf= open(\"test.xsd\",\"r\")\nmetadata = f\nparser = etree.XMLParser(remove_blank_text=True)\ntree = etree.parse(metadata, parser)\nroot = tree.getroot()\n\n####    \nfor elem in root.getiterator():\n    if not hasattr(elem.tag, 'find'): continue  # (1)\n    i = elem.tag.find('}')\n    if i >= 0:\n        elem.tag = elem.tag[i+1:]\nobjectify.deannotate(root, cleanup_namespaces=True)\n####\n\ntree.write('done.xml',\n           pretty_print=True, xml_declaration=True, encoding='UTF-8')\n\ntemp = open(\"done.xml\")\nparser = etree.XMLParser(remove_blank_text=False)\ntree = etree.parse(temp, parser)\nroot = tree.getroot()\nelements=tree.xpath('//element')\ntagList=list()\nfor t in elements:\n    xmlTagName =(t.attrib['name'])\n    print(type(xmlTagName))\n    tagList.append(xmlTagName)\nprint(tagList)",
+			"file": "/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/script.py",
+			"file_size": 30,
+			"file_write_time": 132140566915480946,
+			"settings":
+			{
+				"buffer_size": 807,
+				"line_ending": "Windows",
+				"name": "from lxml import etree as et"
+			}
+		},
+		{
+			"contents": "userSysIdNav/empInfo/jobInfoNav/customString7Nav/externalCode eq '${property.opco}' and lastModifiedDateTime ge datetimeoffset'${property.fromDate}' and lastModifiedDateTime le datetimeoffset'${property.toDate}'\n\nP-614125\n\n\n\n<Error>\n<Error_msg>\n${exception.message}\n</Error_msg>\n</Error>\n",
+			"settings":
+			{
+				"buffer_size": 288,
+				"line_ending": "Windows",
+				"name": "userSysIdNav/empInfo/jobInfoNav/customString7Nav/e"
+			}
+		},
+		{
+			"contents": "// Employeetime\n\n$select=timeType,cust_AMPM,startDate,endDate,quantityInDays,startTime,endTime,quantityInHours,userIdNav/userId,approvalStatus&$expand=userIdNav&$filter=approvalStatus eq 'APPROVED' and lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}'  and userIdNav/empInfo/jobInfoNav/countryOfCompany eq 'THA'\n\n\n\n&$filter=approvalStatus eq 'APPROVED' and lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}'  and userIdNav/empInfo/jobInfoNav/countryOfCompany eq 'THA'\n\n\n\n==================================================================================================\n\nimport com.sap.it.api.mapping.*;\n\n\n\ndef String customFunc(String dt){\n    def date = dt;\n    \n    def dtFormat = \"yyyy-MM-dd'T'HH:mm:ssXXX\";\n    def dt1 = date.format(dtFormat, TimeZone.getTimeZone('IST'))\n    \n    assert dt1 instanceof String  \n    def newDate = Date.parse(dtFormat, dt1) \n    assert newDate instanceof Date\n    \n    \n    \n\treturn dt1 \n}\n\n\n\n\n\n\nimport com.sap.it.api.mapping.*;\nimport java.text.DateFormat;\nimport java.text.SimpleDateFormat;\nimport java.util.Date;\n\n\ndef String changeDate(String dateTime){\n        dateTime = dateTime + \"+00:00\";\n        def dateTime1 = Date.parse(\"yyyy-MM-dd'T'HH:mm:ssXXX\",dateTime);\n        dateTime = dateTime1.format(\"yyyy-MM-dd'T'HH:mm:ssXXX\", TimeZone.getTimeZone('GST'));\n\treturn arg1 \n}",
+			"settings":
+			{
+				"buffer_size": 1348,
+				"line_ending": "Windows",
+				"name": "// Employeetime"
+			}
+		},
+		{
+			"contents": "def bodySize=body.getBytes().length;\n        if(bodySize==0){\n            message.setHeader(\"fileFlag\", \"0\");\n        }else{\n            message.setHeader(\"fileFlag\", \"1\");\n        }\n\n\n\n\n\n${date:now:yyyy-MM-dd'T'00:00:00.000}\n\ncurrentRunDate\n\n\nlastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}'\n\n\n${header.fileFlag}\n\n${header.fileFlag} = '1'\n\n2019-01-01T00:00:00\n\n\n\n\n",
+			"settings":
+			{
+				"buffer_size": 382,
+				"line_ending": "Windows",
+				"name": "def bodySize=body.getBytes().length;"
+			}
+		},
+		{
+			"contents": "/Non SAP Payroll System/Outbound/TH - TIGERSOFT\n/Non SAP Payroll System/Outbound/HK - IPL\n\nSFAPI_SFTP\n\nsftp012.successfactors.eu/\n\n\n&$filter=cust_companyNav/country eq 'THA' and lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}'\n\n&$filter=cust_company eq 'THA' and lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}'\n\n=======================================================\nhttps://api12preview.sapsf.eu\n\n{{SF_SFAPI_URL}}    https://api12preview.sapsf.eu\n\n{{SF_SFTP_URL}}    ftp.alfuttaim.ae\n\n{{SF_SFTP_DIR}}\n\n{{SF_API_CREDENTIALS}}\n\n{{SF_SFTP_CRED}}    AFG_SFTP\n\n{{SF_SFTP_DIR}}   /Non_SAP_Payroll_System/TH/TIGERSOFT/From_AFG\n\n\nftp.alfuttaim.ae\n\nAFG_SFTP\n\nSFSF_User_Credentials\n\n/Non_SAP_Payroll_System/TH/TIGERSOFT/From_AFG\n\n=======================================================\n2019-07-01T00:00:00\n\nPersonal Information\nJob Information\nCompensation Information\nLeave Data\n\n\n===========================================================\n2019-03-01T00:00:00\n\n\nCompany Master Information\nSection Master Information\nDepartment Master Information\nJob Master Information\nLocation Master Information\nContract Type Master Information\nPosition Master Information\n\n\n======================================================================================\n\n\n&$filter=personNav/employmentNav/jobInfoNav/countryOfCompany eq 'THA' and lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}'\n\n\n\n\nimport com.sap.gateway.ip.core.customdev.util.Message;\nimport java.util.HashMap;\nimport java.text.SimpleDateFormat;\ndef Message processData(Message message) {\n    map = message.getProperties();\n    def date = new Date();\n    sdf = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss'Z'\") ;\n    today = sdf.format(date).substring(0,10);\n    message.setProperty(\"today\", today);\n\n    return message;\n}\n\n\ncurrentRunDate\n${date:now:yyyy-MM-dd'T'00:00:00.000}\n\n&fromDate=${property.today}\n\n\n\n==========================================================================================\n&$filter=personNav/employmentNav/jobInfoNav/countryOfCompany eq 'THA' and lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}'&fromDate=${property.today}\n\n\n====================================================================================\nJobInfo - THA\n&$filter=( lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' or startDate ge datetime'${property.today}' ) and countryOfCompany eq 'THA'\n\n\n$select=employmentNav/personIdExternal,company,companyNav/description,companyNav/name,departmentNav/description,departmentNav/name,divisionNav/description,divisionNav/description_en_GB,jobCode,location,locationNav/name,employeeType,employeeTypeNav/localeLabel,position,positionNav/description,positionNav/positionTitle,employmentNav/startDate,customLong1,emplStatus,emplStatusNav/localeLabel,emplStatusNav/externalCode,employeeTypeNav/externalCode,employmentNav/personNav/personalInfoNav/localNavTHA/customString1,employmentNav/personNav/personalInfoNav/localNavTHA/customString4,startDate,event,eventNav/localeLabel,eventNav/externalCode,employmentNav/endDate,companyNav/defaultPayGroupNav/description_en_GB,companyNav/defaultPayGroupNav/name,divisionNav/externalCode,departmentNav/externalCode,employmentNav/compInfoNav/payGroup,customString1Nav/externalCode,customString1Nav/localeLabel,customString10Nav/externalCode,customString10Nav/externalName,customString10Nav/lastModifiedDateTime,eventReason,eventReasonNav/externalCode,eventReasonNav/name,eventReasonNav/description,employmentNav/personNav/personalInfoNav/localNavTHA/customString1Nav/externalName&$expand=employmentNav,companyNav,departmentNav,divisionNav,locationNav,employeeTypeNav,positionNav,emplStatusNav,employmentNav/personNav/personalInfoNav/localNavTHA,employmentNav/personNav/personalInfoNav/localNavTHA/customString1Nav,employmentNav/personNav/personalInfoNav,employmentNav/personNav,eventNav,companyNav/defaultPayGroupNav,employmentNav/compInfoNav,customString1Nav,customString10Nav,eventReasonNav&$filter=( lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' or startDate ge datetime'${property.today}' ) and countryOfCompany eq 'THA'\n\n\n\n$select=employmentNav/personIdExternal,company,companyNav/description,companyNav/name,departmentNav/description,departmentNav/name,divisionNav/description,divisionNav/description_en_GB,jobCode,location,locationNav/name,employeeType,employeeTypeNav/localeLabel,position,positionNav/description,positionNav/positionTitle,employmentNav/startDate,customLong1,emplStatus,emplStatusNav/localeLabel,emplStatusNav/externalCode,employeeTypeNav/externalCode,employmentNav/personNav/personalInfoNav/localNavTHA/customString1,employmentNav/personNav/personalInfoNav/localNavTHA/customString4,startDate,event,eventNav/localeLabel,eventNav/externalCode,employmentNav/endDate,companyNav/defaultPayGroupNav/description_en_GB,companyNav/defaultPayGroupNav/name,divisionNav/externalCode,departmentNav/externalCode,employmentNav/compInfoNav/payGroup,customString1Nav/externalCode,customString1Nav/localeLabel,customString10Nav/externalCode,customString10Nav/externalName,customString10Nav/lastModifiedDateTime,eventReason,eventReasonNav/externalCode,eventReasonNav/name,eventReasonNav/description&$expand=employmentNav,companyNav,departmentNav,divisionNav,locationNav,employeeTypeNav,positionNav,emplStatusNav,employmentNav/personNav/personalInfoNav/localNavTHA,employmentNav/personNav/personalInfoNav,employmentNav/personNav,eventNav,companyNav/defaultPayGroupNav,employmentNav/compInfoNav,customString1Nav,customString10Nav,eventReasonNav&$filter=( lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' or startDate ge datetime'${property.today}' ) and countryOfCompany eq 'THA'",
+			"settings":
+			{
+				"buffer_size": 5716,
+				"line_ending": "Windows",
+				"name": "/Non SAP Payroll System/Outbound/TH - TIGERSOFT"
+			}
+		},
+		{
+			"contents": "&$filter=( ( lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' ) or personNav/employmentNav/paymentInformationNav/toPaymentInformationDetailV3/lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' or  ) and personNav/employmentNav/jobInfoNav/countryOfCompany eq 'THA'\n\n\n\n( ( lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' and startDate ge datetimeoffset'${property.today}' ) or personNav/employmentNav/paymentInformationNav/toPaymentInformationDetailV3/lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' or  ) and personNav/employmentNav/jobInfoNav/countryOfCompany eq 'THA'\n\n\n\n\n\nimport com.sap.gateway.ip.core.customdev.util.Message;\nimport java.util.HashMap;\nimport java.text.SimpleDateFormat;\ndef Message processData(Message message) {\n    map = message.getProperties();\n    def date = new Date();\n    sdf = new SimpleDateFormat(\"yyyy-MM-dd\") ;\n    today = sdf.format(date);\n    today = today+'T00:00:00Z';\n    message.setProperty(\"today\", today);\n \n    return message;\n}\n\n\n\n\n\n==========================================================================\nEmpJob - JobInfo file\n\n( lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' or startDate ge datetime'${property.today}' ) and countryOfCompany eq 'THA'\n\n\n==========================================================================\n\nPersonalInfo file\n\n( ( lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' and startDate ge datetimeoffset'${property.today}' ) or personNav/employmentNav/paymentInformationNav/toPaymentInformationDetailV3/lastModifiedDateTime ge datetimeoffset'${property.LAST_RUN_DATE}' ) and personNav/employmentNav/jobInfoNav/countryOfCompany eq 'THA'\n\n\n==========================================================================\n\nCompInfo File \n\npayComponent eq 'TH1001' and employmentNav/jobInfoNav/countryOfCompany le 'THA' and lastModifiedDateTime ge '${property.LAST_RUN_DATE}' or startDate ge '${property.today}'",
+			"settings":
+			{
+				"buffer_size": 1980,
+				"line_ending": "Windows",
+				"name": "&$filter=( ( lastModifiedDateTime ge datetimeoffse"
+			}
+		},
+		{
+			"contents": "//Lastmodified Zone Change for MAF\n\nimport com.sap.it.api.mapping.*;\nimport java.text.DateFormat;\nimport java.text.SimpleDateFormat;\nimport java.util.Date;\n\n\ndef String changeDate(String dateTime){\n        // dateTime = dateTime + \"+00:00\";\n        // def dateTime1 = Date.parse(\"yyyy-MM-dd'T'HH:mm:ssXXX\",dateTime);\n        def dateTime1 = Date.parse(\"yyyy-MM-dd'T'HH:mm:ss\",dateTime);\n        // dateTime = dateTime1.format(\"yyyy-MM-dd'T'HH:mm:ssXXX\", TimeZone.getTimeZone('Asia/Dubai'));\n        dateTime = dateTime1.format(\"yyyy-MM-dd'T'HH:mm:ss\", TimeZone.getTimeZone('Asia/Dubai'));\n\treturn dateTime \n}\n\n\n\n\n\n\n\n//Comments\n\n\tAdded Last Modified, Externalised Parameters.\n\n\n===============================================================\n\n\n{{SFAPI_URL}}\n\n\n{{SF_API_CREDENTIALS}}       SFAPI_MAFD\n\n\n\n\n===============================================================\n\n<Error>\n<Error_msg>\n${exception.message}\n</Error_msg>\n</Error>",
+			"settings":
+			{
+				"buffer_size": 930,
+				"line_ending": "Windows",
+				"name": "//Lastmodified Zone Change for MAF"
+			}
+		},
+		{
+			"contents": "&$filter=${property.QUERY}&fromDate=${property.today}\n\ntoday = toDate.substring(0,10);\n\nmessage.setProperty(\"today\", today);\n\n\n\n\n\n${exception.message}\n\n\n\n\n{{SF_API_URL}}\n\n{{SF_API_CREDENTIALS}}\n\n\n{{SF_SFTP_CRED}}\n{{SF_SFTP_URL}}\n\n{{SF_SFTP_DIR}}\n\n\n<Error>\n<Error_msg>\n${exception.message}\n</Error_msg>\n</Error>\n\n\n\t\t <fromDate>2019-01-01T00:00:00</fromDate>\n         <toDate>2019-09-01T00:00:00</toDate>\n         <opCo>MAFP</opCo>\n\n\n         p-613785\n\n\n         S0012582990\n\n         R011ing%2019",
+			"settings":
+			{
+				"buffer_size": 495,
+				"line_ending": "Windows",
+				"name": "&$filter=${property.QUERY}&fromDate=${property.tod"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control:",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Con",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 164.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/TicTacToe/tic.py",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/LeaveInfo.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/XSD_to_XSLT_Converter.py",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/XSD_to_XSLT_Converter.py",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/CSV-XSD/CSV to XSD converter.py",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/samplexsd.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/CSV-XSD/output.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/CSV-XSD/test.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/MovmentInfoXSLT.xslt",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/test.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/sample.xml",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/done.xml",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/test.xslt",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/done.xslt",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/DependantInfo.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/test.py",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/test.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/MovementInfo.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/NewhireInfo.xslt",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/NewHireInfo.xsd",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/AFG/xsd/H&K/DependantInfo.xslt",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/Final.xslt",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/FinallyDone.xslt",
+		"/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/Pygame/introduction.py",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/samples/dateSubtractor.groovy",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Desktop/AFG TEST/Ticket/QUERY for the files.txt",
+		"/C/Users/Sangram Salunkhe/Downloads/MessageLog-HKMS_New_Hire_Information-attachment_2-(Untitled).txt",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Desktop/AFG TEST/Ticket/EmployeeNotFound-UsingSkipToken",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Desktop/AFG TEST/Ticket/QUERY for Issue 1 & 2.txt",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Desktop/AFG TEST/Ticket/FutureDatedEmployeeUsingFromDate&SkipToken.xml",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Desktop/AFG TEST/Wave3/api5_successfactors_eu_odata_v2.edmx",
+		"/C/Users/Sangram Salunkhe/Downloads/ValueMappign - Copy1.csv",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Desktop/NewHire.xlsx.csv",
+		"/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Desktop/test.csv"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"fileName",
+			"xslt_file",
+			"tagList",
+			"real_person",
+			"actor",
+			"real_person",
+			"event",
+			"employmentNav/personNav/personalInfoNav/localNavHKG",
+			"Gender",
+			"EmployeeDetails",
+			"Employement",
+			"Bank_Account",
+			"Bank_Name",
+			"Manager_ID",
+			"Division",
+			"Designation",
+			"Confirm_Date",
+			"Join_Date",
+			"Job_Grade",
+			"IC_No",
+			"Terminate_Date",
+			"Active",
+			"Hiring_Company",
+			"Employee_name",
+			"Legacy_Employee_ID",
+			"Employee_account",
+			"m:",
+			"d:",
+			"CDATA",
+			"http",
+			"\\",
+			"CommDetails",
+			"xsd",
+			"hrd:",
+			"hrd",
+			"position",
+			"UserName",
+			"Sex",
+			">\n",
+			"<D_End><xsl:value-of select=\"D_End\"/></D_End>",
+			"SSO_Branch",
+			"Eff_Date",
+			"Bank",
+			"AccouID_CompanyNo",
+			"ID_Code",
+			"BIRTH_DATE",
+			"FamilyStatus",
+			"SurnameE",
+			"NameE",
+			"NE",
+			"SurnameT",
+			"NameT",
+			"NT",
+			"Contract_End_Date",
+			"Contract_Start_Date",
+			"Last_Day_of_Service",
+			"Date_Tender",
+			"Confirmation_Date",
+			"Service_Date",
+			"Date_of_Birth",
+			"Event_Reason",
+			"Email_Address",
+			"Employee_Sub_Group",
+			"Employee_Status",
+			"Last_Name",
+			"xsd",
+			"first",
+			"NewhireRecord",
+			"customString",
+			"First_Name",
+			"ema",
+			"UpdateFOCostCenter",
+			"BO_Update_CC_AC",
+			"EmployeeAdvances",
+			"Admin_Request",
+			"AdminRequest",
+			"Oracle_Payroll_Admin_Request",
+			"EmployeeDocuments",
+			"Employee_Documents",
+			"EmpDocuments",
+			"Oracle_Payroll_Employee_Documents",
+			"Leave_Balance",
+			"LeaveBalance",
+			"Oracle_Payroll_Leave_Balance",
+			"End_Employment",
+			"EndEmployment",
+			"Oracle_Payroll_End_Employment",
+			">\n",
+			"countryOfCompanyNav",
+			"LaborPID",
+			"BasciDataRequest",
+			"emp_basic_info",
+			"empBasicInfo",
+			"Oracle_Payroll_Employee_Basic",
+			"EmployeeBank",
+			"Emp_Bank",
+			"EmpBank",
+			"Oracle_Payroll_Employee_Bank",
+			"EmployeeDocuments",
+			"Employee_Documents",
+			"EmpDocuments",
+			"Oracle_Payroll_Employee_Documents",
+			"customString7",
+			"Oracle_Payroll_Employee_Basic",
+			"Emp_Documents",
+			"Employee_Documents",
+			"EmployeeDocuments",
+			"EmpDocuments",
+			"Oracle_Payroll_Employee_Documents",
+			"leave_information",
+			"Leave_record",
+			"EmpLeaveData",
+			"LeaveData",
+			"SFEC_MMS_LEAVE_DATA",
+			"minOccurs=\"0\"/>",
+			" minOccurs=\"0\"/>",
+			"minOccurs=\"0\" minOccurs=\"0\"",
+			"type=\"xsd:string\"",
+			"type=\"xsd:string\" ",
+			"type=\"xsd:string\"",
+			"type=\"xsd:string\" ",
+			"BasciData",
+			"basic_info_record",
+			"emp_basic_info",
+			"empBasicInfo",
+			"Oracle_Payroll_Employee_Basic",
+			"BasicData",
+			"LeaveData"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"rootTags",
+			"xsd_file",
+			"saved_column",
+			"xs",
+			"nameSpace",
+			"xs",
+			"PayComp",
+			"Movement",
+			"p_costcen",
+			"p_costp",
+			"p_hrrate",
+			"p_averhrs",
+			"p_salary",
+			"p_basecur1",
+			"p_jobcode",
+			"p_stagrade",
+			"p_dept",
+			"p_location",
+			"p_section",
+			"p_div",
+			"p_comp",
+			"p_reason",
+			"p_perfdate",
+			"p_empid",
+			"",
+			"EmployeeDetails",
+			"",
+			"Job_Action",
+			"D_End",
+			"Eff_Date",
+			"SSO_Branch",
+			"ID_TAX",
+			"Type_Emp",
+			"WorkOut",
+			"D_Test",
+			"D_Start",
+			"Position",
+			"WorkStatus",
+			"WP",
+			"P_Level",
+			"Section",
+			"ID_Company",
+			"Eff_Date",
+			"Bank",
+			"AccountNo",
+			"ID_Code",
+			"BIRTH_DATE",
+			"FamilyStatus",
+			"Sex",
+			"SurnameE",
+			"NameE",
+			"NE",
+			"SurnameT",
+			"NameT",
+			"Manager_Email_Address",
+			"Last_Name_of_Manager",
+			"First_Name_of_Manager",
+			"Reporting_Manager",
+			"Phone_Number",
+			"Country",
+			"Cost_Centre_Account",
+			"Function",
+			"Division_Department",
+			"Company",
+			"Contract_End_Date",
+			"Contract_Start_Date",
+			"Last_Day_of_Service",
+			"Date_Tender",
+			"Confirmation_Date",
+			"Service_Date",
+			"Date_of_Birth",
+			"Event_Reason",
+			"Email_Address",
+			"Employee_Sub_Group",
+			"Employee_Status",
+			"Last_Name",
+			"AdvanceUpdate",
+			"Advance_update",
+			"AdvanceResponse",
+			"EmployeeAdvance",
+			"EmployeeAdvances",
+			"Oracle_Payroll_Employee_advances",
+			"AdminRequest",
+			"Admin_Request",
+			"AdminRequest",
+			"Oracle_Payroll_Admin_Request",
+			"Admin_Request",
+			"AdminRequest",
+			"hlb_AdminRequest",
+			"Leave_Balance",
+			"LeaveBalance",
+			"Oracle_Payroll_Leave_Balance",
+			"EndEmploymentRequest",
+			"End_Employment",
+			"EndEmployment",
+			"Oracle_Payroll_End_Employment",
+			"End_Employment",
+			"EndEmployment",
+			"Oracle_Payroll_EndEmployment",
+			"EmployeeBank",
+			"Emp_Bank",
+			"EmpBank",
+			"Oracle_Payroll_Employee_Bank",
+			"Employee_Dependents",
+			"EmployeeDependents",
+			"EmpDependents",
+			"Oracle_Payroll_Employee_Dependents",
+			"Employee_Documents",
+			"EmpDocuments",
+			"Emp_Documents",
+			"EmployeeDocuments",
+			"EmpDocuments",
+			"Oracle_Payroll_Employee_Documents",
+			"minOccurs=\"0\"></xsd:element>",
+			"minOccurs=\"0\"",
+			"type=\"xsd:string\" minOccurs=\"0\"",
+			"empAssignment",
+			"emp_Assignment",
+			"emp_Assignment_record",
+			"emp_Assignment",
+			"empAssignment",
+			"Oracle_Payroll_Employee_Assignment",
+			"empBasicInfo",
+			"BasicData",
+			"BasciDataRequest",
+			"basic_info_record",
+			"EmpBasicInfo",
+			"emp_basic_info"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 11,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/samples/groovyLog.groovy",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 557,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								557,
+								557
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Groovy/Groovy.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Sangram Salunkhe/OneDrive - Rolling Arrays Consulting Pvt Ltd/Documents/samples/DateFormat.groovy",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 713,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								713
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Groovy/Groovy.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/Sangram Salunkhe/Downloads/filter_records_date.groovy",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1221,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								120,
+								120
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Groovy/Groovy.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1749,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1749,
+								1749
+							]
+						],
+						"settings":
+						{
+							"auto_name": "/*",
+							"syntax": "Packages/Groovy/Groovy.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Users/Sangram Salunkhe/OneDrive/notes/SurajNotes/python/XSD-XSLT/script.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 807,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								178,
+								178
+							]
+						],
+						"settings":
+						{
+							"auto_name": "from lxml import etree as et",
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 288,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								288,
+								288
+							]
+						],
+						"settings":
+						{
+							"auto_name": "userSysIdNav/empInfo/jobInfoNav/customString7Nav/e",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1348,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								498,
+								498
+							]
+						],
+						"settings":
+						{
+							"auto_name": "// Employeetime",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 382,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								226,
+								226
+							]
+						],
+						"settings":
+						{
+							"auto_name": "def bodySize=body.getBytes().length;",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5716,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3766,
+								3766
+							]
+						],
+						"settings":
+						{
+							"auto_name": "/Non SAP Payroll System/Outbound/TH - TIGERSOFT",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1368.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1980,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1034,
+								1034
+							]
+						],
+						"settings":
+						{
+							"auto_name": "&$filter=( ( lastModifiedDateTime ge datetimeoffse",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 930,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								527,
+								527
+							]
+						],
+						"settings":
+						{
+							"auto_name": "//Lastmodified Zone Change for MAF",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 495,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								247,
+								247
+							]
+						],
+						"settings":
+						{
+							"auto_name": "&$filter=${property.QUERY}&fromDate=${property.tod",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/Python/Python.sublime-build",
+	"project": "Game1.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
